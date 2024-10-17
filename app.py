@@ -20,6 +20,12 @@ class Users(Resource):
     def get(self):
         return self.dic
     
+
+
+
+
+
+    
 api.add_resource(HelloWorld, '/')
 api.add_resource(Users, '/users')
 
