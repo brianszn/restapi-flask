@@ -1,8 +1,5 @@
 from flask import Flask
 from flask_restful import Resource, Api
-import db
-
-
 
 app = Flask(__name__)
 api = Api(app)
@@ -12,10 +9,8 @@ api = Api(app)
 class HelloWorld(Resource):
     
     def get(self):
-        html = """
-                <script>alert('test')</script>
-            """
-        return '<script>alert("test");</script>'
+        root = 'hellah'
+        return root
     
 class Users(Resource):
 
@@ -31,7 +26,7 @@ api.add_resource(Users, '/users')
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host="0.0.0.0")
 
     
     
