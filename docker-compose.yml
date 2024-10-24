@@ -1,0 +1,19 @@
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    restart: always
+
+  flask-rest-api:
+    build:
+      context: .
+    ports:
+      - 5000:5000
+    restart: always
+    depends_on:
+      - mongodb
+    volumes:
+      - .:/app
