@@ -8,7 +8,7 @@ WORKDIR /app
 
 # copiar o requirements.txt e instalar
 COPY requirements.txt .
-RUN pip3 install -r requirements.txt
+RUN pip install -r requirements.txt
 
 # Copiar o código da aplicação
 COPY app.py .
