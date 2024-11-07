@@ -1,8 +1,6 @@
 
-dic = {'1': 'cachorro',
-               '2': 'gato',
-               '3': 'cavalo'}
+dic = {'animal': 'cachorro',
+               'idade': '12'}
 
 
-for i in dic.keys():
-    print(dic[i])
+print(dic['animal'])
