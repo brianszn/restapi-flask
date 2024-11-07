@@ -23,7 +23,7 @@ class UserModel(Document):
 
 class HelloWorld(Resource):
     def get(self):
-        root = 'hello w0rld b1tch'
+        root = 'hello w0rld b1tch motherfucker, fuck yeah'
         return root
 
 
