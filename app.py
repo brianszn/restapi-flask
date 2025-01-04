@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_restful import Resource, Api, reqparse
-from mongoengine import StringField, EmailField, Document, connect
+from mongoengine import StringField, EmailField, Document, connect, NotUniqueError
 app = Flask(__name__)
 
 app.config['MONGODB_SETTINGS'] = {
@@ -49,9 +49,13 @@ class User(Resource):
     def post(self):
 
         data = user_parser.parse_args()
-        UserModel(**data).save()
+        
+        try:
+            UserModel(**data).save()
+            return {"user": data["name"], "msg": "OK"}, 201
+        except NotUniqueError:
+            return {"msg": "CPF already exists."}, 400
 
-        return {"user": data["name"], "message": "OK"}, 201
 
 
 api.add_resource(Users, '/users')
