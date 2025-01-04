@@ -1,6 +1,6 @@
 from flask import Flask, jsonify
-from flask_restful import Resource, Api
-from mongoengine import *
+from flask_restful import Resource, Api, reqparse
+from mongoengine import StringField,EmailField,Document, connect
 app = Flask(__name__)
 
 app.config['MONGODB_SETTINGS'] = {
@@ -10,6 +10,14 @@ app.config['MONGODB_SETTINGS'] = {
     'username': 'adm',
     'password': 'adm'
 }
+
+
+user_parser = reqparse.RequestParser()
+
+user_parser.add_argument('name', type=str, required=True, help="Esse campo não pode estar vazio")
+user_parser.add_argument('cpf', type=str, required=True, help="Esse campo não pode estar vazio")
+user_parser.add_argument('email', type=str, required=True, help="Esse campo não pode estar vazio")
+
 
 api = Api(app)
 
@@ -21,27 +29,35 @@ connect(
     password=app.config['MONGODB_SETTINGS']['password']
 )
 
+
 class UserModel(Document):
+
+    name = StringField(required=True)
     cpf = StringField(required=True, unique=True)
-    first_name = StringField(required=True)
-    last_name = StringField(required=True)
     email = EmailField(required=True)
 
 
 class Users(Resource):
+
     def get(self):
-        return {"message:": "brian"} 
         
+        return 1
+
 
 class User(Resource):
+
     def post(self):
-        return {"message:": "teste"}
-    
+        
+        data = user_parser.parse_args()
+        UserModel(**data).save()
+
+        return {"msg": "Successfully"}, 201
+        
+        
+
 
 api.add_resource(Users, '/users')
-
-api.add_resource(User, '/user', '/user/<string:cpf>')
-
+api.add_resource(User, '/user')
 
 
 if __name__ == '__main__':
